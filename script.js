@@ -2,7 +2,7 @@
 const webProducts = [
   { id: 1, name: "Web Find a doctor", link: " https://omarprogarmmer.github.io/Find-a-doctor/", description: "This website helps you search for a doctor in your country (inactive)" },
   { id: 2, name: "Web Menu", link: "https://omarprogarmmer.github.io/Menu/", description: "This web menu is for a restaurant." },
-  { id: 3, name: "Web Personal Site", link: "", description: "This website shows personal works." },
+  { id: 3, name: "Web Personal Site", description: "This website shows personal works." },
 ];
 
 const playProducts = [];
