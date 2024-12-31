@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Omar Programmer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Omar Programmer</h1>
+    <div class="buttons">
+      <button onclick="showProducts('web')" class="btn btn-web">My Web</button>
+      <button onclick="showProducts('play')" class="btn btn-play">My Play</button>
+    </div>
+    <div id="productList" class="product-list hidden">
+      <h2 id="productTitle" class="product-title"></h2>
+      <ul id="products"></ul>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
