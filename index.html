@@ -4,22 +4,361 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Omar Programmer</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="piclumen_1735824683011_YOL_icon.ico" type="image/x-icon">
+  <style>
+    /* إعدادات الجسم */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a202c;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
 
+    /* إعدادات الحاوية الرئيسية */
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #2d3748;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+      position: relative;
+    }
+
+    /* تأثير الحدود المتحركة حول المربع - ظاهر دائماً */
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      background: linear-gradient(45deg, #6c63ff, #9f7aea, #f687b3, #6c63ff);
+      background-size: 300% 300%;
+      border-radius: 12px;
+      z-index: -1;
+      opacity: 1;
+      animation: borderMove 3s ease infinite;
+    }
+
+    @keyframes borderMove {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* إعدادات العنوان - تدرج ثابت فقط بدون انيميشن */
+    h1 {
+      font-size: 28px;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, #9f7aea, #f687b3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+      letter-spacing: 2px;
+      animation: slideDown 1s ease-out;
+    }
+
+    /* إعدادات الأزرار */
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    button {
+      display: inline-block;
+      padding: 12px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffffff;
+      background-color: #6c63ff;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button.active {
+      background-color: #4b3f8c;
+    }
+
+    button:hover {
+      background-color: #4b3f8c;
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* إعدادات قائمة المنتجات */
+    .product-list {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .product-list.visible {
+      display: block;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .product-title {
+      color: #ffffff;
+      font-size: 22px;
+      margin-bottom: 20px;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      background-color: #2d3748;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      animation: fadeInLeft 0.5s ease-out;
+      animation-delay: calc(0.1s * var(--i));
+      opacity: 0;
+      animation-fill-mode: forwards;
+      transition: all 0.3s ease;
+      gap: 15px;
+    }
+
+    /* تأثير التمرير على العنصر */
+    li:hover {
+      transform: translateX(10px) scale(1.02);
+      background: linear-gradient(135deg, #4a3f8c, #2d3748);
+      box-shadow: 0 8px 25px rgba(108, 99, 255, 0.4);
+      cursor: pointer;
+    }
+
+    li .description {
+      font-size: 12px;
+      color: #d3d3d3;
+      transition: color 0.3s ease;
+      margin-top: 5px;
+    }
+
+    li:hover .description {
+      color: #9f7aea;
+    }
+
+    a {
+      color: #f687b3;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 16px;
+      background-color: rgba(108, 99, 255, 0.2);
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      margin-left: 0;
+    }
+
+    a:hover {
+      color: #ffffff;
+      background-color: #6c63ff;
+      transform: scale(1.05);
+      display: inline-block;
+    }
+
+    .product-details {
+      flex: 1;
+      text-align: left;
+    }
+
+    .product-details span {
+      display: block;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      text-align: left;
+    }
+
+    li:hover .product-details span {
+      color: #f687b3;
+    }
+
+    .product-details .description {
+      font-size: 12px;
+      color: #d3d3d3;
+      text-align: left;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1 class="title">Omar Programmer</h1>
     <div class="buttons">
       <button onclick="showProducts('web')" class="btn btn-web">My Web</button>
-     
+      <button onclick="showProducts('games')" class="btn btn-games">🎮 Games & Apps</button>
     </div>
     <div id="productList" class="product-list hidden">
       <h2 id="productTitle" class="product-title"></h2>
       <ul id="products"></ul>
     </div>
   </div>
-  <script src="script.js"></script>
+
+  <script>
+    // قائمة منتجات الويب
+    const webProducts = [
+      { id: 1, name: "Web Find a doctor", link: "https://omarprogarmmer.github.io/Find-a-doctor/", description: "This website helps you search for a doctor in your country" },
+      { id: 2, name: "Web Menu", link: "https://omarprogarmmer.github.io/Menu/", description: "This web menu is for a restaurant." },
+      { id: 3, name: "Web Personal Site", link: "https://omarprogarmmer.github.io/Personal-Site/", description: "This website shows personal works." },
+    ];
+
+    // قائمة الألعاب والتطبيقات
+    const gamesProducts = [
+      { id: 1, name: "LevelChase", link: "", description: "In the world of theaters, a mysterious key to a door has been stolen. What could be hidden behind this door? You are the pursuer, and it must be recovered and its secrets discovered." },
+    ];
+
+    // دالة لعرض المنتجات بناءً على النوع
+    function showProducts(type) {
+      const productList = document.getElementById("productList");
+      const productTitle = document.getElementById("productTitle");
+      const productsContainer = document.getElementById("products");
+      const buttons = document.querySelectorAll(".btn");
+
+      // إعادة تعيين ألوان الأزرار
+      buttons.forEach(button => button.classList.remove("active"));
+
+      // إضافة اللون النشط للزر المختار
+      const activeButton = document.querySelector(`.btn-${type}`);
+      if (activeButton) {
+        activeButton.classList.add("active");
+      }
+
+      // إظهار قائمة المنتجات
+      productList.classList.add("visible");
+
+      // تحديد العنوان بناءً على النوع
+      if (type === "web") {
+        productTitle.textContent = "Web Products";
+      } else if (type === "games") {
+        productTitle.textContent = "🎮 Games & Applications";
+      }
+
+      // تحديد المنتجات بناءً على النوع
+      let products = [];
+      if (type === "web") {
+        products = webProducts;
+      } else if (type === "games") {
+        products = gamesProducts;
+      }
+
+      // مسح المحتوى القديم من المنتجات
+      productsContainer.innerHTML = "";
+
+      if (products.length === 0) {
+        // عرض رسالة إذا لم توجد منتجات
+        const noProducts = document.createElement("li");
+        noProducts.textContent = "No products available.";
+        noProducts.style.textAlign = "center";
+        noProducts.style.color = "#f687b3";
+        productsContainer.appendChild(noProducts);
+        return;
+      }
+
+      // إضافة المنتجات إلى القائمة
+      products.forEach((product, index) => {
+        const listItem = document.createElement("li");
+        listItem.style.setProperty("--i", index);
+
+        // تفاصيل المنتج (الاسم والوصف على اليسار)
+        const details = document.createElement("div");
+        details.classList.add("product-details");
+        details.innerHTML = `
+          <span>${product.name}</span>
+          <span class="description">${product.description}</span>
+        `;
+
+        // رابط للمنتج (على اليمين)
+        const link = document.createElement("a");
+        if (product.link && product.link !== "") {
+          link.href = product.link;
+          link.target = "_blank";
+          link.textContent = "Visit →";
+        } else {
+          link.href = "#";
+          link.textContent = "Soon ←";
+          link.style.cursor = "not-allowed";
+          link.style.opacity = "0.7";
+          link.onclick = function(e) {
+            e.preventDefault();
+            alert("This application will be available soon! 🚀");
+          };
+        }
+
+        // إضافة العناصر داخل القائمة
+        listItem.appendChild(details);
+        listItem.appendChild(link);
+
+        // إضافة المنتج إلى الحاوية
+        productsContainer.appendChild(listItem);
+      });
+    }
+
+    // عرض مشاريع الويب عند تحميل الصفحة
+    showProducts('web');
+  </script>
 </body>
 </html>
